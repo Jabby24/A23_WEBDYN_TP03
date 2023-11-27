@@ -6,6 +6,7 @@ let compteurCouleur = 0;
 const dimsprite1 = 48;
 const dimsprite2 = 48;
 const deplacement = 10;
+const deplacement2 = 10;
     let posx1;
     let posy1;
     let posx2;
@@ -36,14 +37,19 @@ const couleur = ["darkgreen", "forestgreen"];
 
         canevas = document.getElementById('canevas');
         contexte = canevas.getContext('2d');
+        contexte1 = canevas.getContext('2d');
+        contexte2 = canevas.getContext('2d');
 
         construireMatrice();
         affichermatrice();
 
     //let ImageSprite1 = new Image(images/CuboneSprites/Cubone_Front)
-        contexte.fillStyle = "blue";
+        //contexte1.fillStyle = "blue";
             posx1 = canevas.width/2 - dimsprite1/2;
             posy1 = canevas.height/2 - dimsprite1/2;
+
+            posx2 = canevas.width/2 - dimsprite2/2;
+            posy2 = canevas.height/2 - dimsprite2/2;
 
             window.requestAnimationFrame(boucleJeu);  // le navigateur appellera boucleJeu() au bon moment
     }
@@ -91,12 +97,7 @@ const couleur = ["darkgreen", "forestgreen"];
     }
     
 
-    function affichage() {
-        contexte.clearRect(0, 0, canevas.width, canevas.height);  // Clear the entire canvas
-        affichermatrice();  // Draw the tile background
-        contexte.fillRect(posx1, posy1, dimsprite1, dimsprite1);
-        contexte.fillRect(posx2, posy2, dimsprite2, dimsprite2);
-    }
+   
 
 
 
@@ -137,31 +138,36 @@ const couleur = ["darkgreen", "forestgreen"];
     } */
 
     function boucleJeu(timeStamp) {
-        calculerPosition();
+        calculerPosition1();
+        calculerPosition2();
         affichage();  // Call the main affichage function first
         window.requestAnimationFrame(boucleJeu);
     }
     
     function affichage() {
         contexte.clearRect(0, 0, canevas.width, canevas.height);  // Clear the entire canvas
+        
         affichermatrice();  // Draw the tile background
-        contexte.fillRect(posx1, posy1, dimsprite1, dimsprite1);
-        contexte.fillRect(posx2, posy2, dimsprite2, dimsprite2);
+
+        contexte1.fillStyle = "blue";
+        contexte2.fillStyle = "red";
+        contexte1.fillRect(posx1, posy1, dimsprite1, dimsprite1);
+        contexte2.fillRect(posx2, posy2, dimsprite2, dimsprite2);
     }
 
     function toucheAppuyee(evenement){
-        if((evenement.key === "ArrowUp") || (evenement.key === "ArrowDown") || (evenement.key === "ArrowLeft") || (evenement.key === "ArrowRight")){
+        if((evenement.key === "ArrowUp") || (evenement.key === "ArrowDown") || (evenement.key === "ArrowLeft") || (evenement.key === "ArrowRight") || (evenement.key === "W") || (evenement.key === "A") || (evenement.key === "S") || (evenement.key === "D")){
 touche[evenement.key] = true;
         }
     }
 
     function toucheRelachee(evenement){
-        if((evenement.key === "ArrowUp") || (evenement.key === "ArrowDown") || (evenement.key === "ArrowLeft") || (evenement.key === "ArrowRight")){
+        if((evenement.key === "ArrowUp") || (evenement.key === "ArrowDown") || (evenement.key === "ArrowLeft") || (evenement.key === "ArrowRight")  || (evenement.key === "W") || (evenement.key === "A") || (evenement.key === "S") || (evenement.key === "D")){
 touche[evenement.key] = false;
         }
     }
 
-    function calculerPosition(){
+    function calculerPosition1(){
    
        if(touche["ArrowUp"]){
         posy1 -= deplacement;
@@ -198,6 +204,43 @@ touche[evenement.key] = false;
        }
 
     }
+    function calculerPosition2(){
+   
+        if(touche["W"]){
+         posy2 -= deplacement2;
+        }
+        if(touche["A"]){
+         posy2 += deplacement2;
+        }
+        if(touche["S"]){
+         posx2 += deplacement2;
+        }
+        if(touche["D"]){
+         posx2 -= deplacement2;
+        }
+ 
+        if(posx2 < 0)
+        {
+         posx2 = 0
+ 
+        }
+ 
+        if(posx2 > canevas.width - dimsprite2)
+        {
+         posx2 = canevas.width - dimsprite2
+        }
+ 
+        if(posy2 > (canevas.height - dimsprite2) )
+        {
+         posy2 = canevas.height - dimsprite2
+        }
+ 
+        if(posy2 < 0 )
+        {
+         posy2 = 0
+        }
+ 
+     }
     
 
 
