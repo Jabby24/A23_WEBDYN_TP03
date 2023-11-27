@@ -30,64 +30,84 @@ const couleur = ["darkgreen", "forestgreen"];
 
 
 
-window.onload = function(){
-    window.addEventListener("keydown", toucheAppuyee)
-    window.addEventListener("keyup", toucheRelachee)
+    window.onload = function(){
+        window.addEventListener("keydown", toucheAppuyee)
+        window.addEventListener("keyup", toucheRelachee)
 
-    canevas = document.getElementById('canevas');
-    contexte = canevas.getContext('2d');
+        canevas = document.getElementById('canevas');
+        contexte = canevas.getContext('2d');
 
-    construireMatrice();
-    affichermatrice();
+        construireMatrice();
+        affichermatrice();
 
-//let ImageSprite1 = new Image(images/CuboneSprites/Cubone_Front)
-    contexte.fillStyle = "blue";
-         posx1 = canevas.width/2 - dimsprite1/2;
-         posy1 = canevas.height/2 - dimsprite1/2;
+    //let ImageSprite1 = new Image(images/CuboneSprites/Cubone_Front)
+        contexte.fillStyle = "blue";
+            posx1 = canevas.width/2 - dimsprite1/2;
+            posy1 = canevas.height/2 - dimsprite1/2;
 
-        window.requestAnimationFrame(boucleJeu);  // le navigateur appellera boucleJeu() au bon moment
-}
+            window.requestAnimationFrame(boucleJeu);  // le navigateur appellera boucleJeu() au bon moment
+    }
     
-function construireMatrice(){
-    console.log('construire');
+    function construireMatrice(){
+        console.log('construire');
 
-    matrice = new Array(58);
-    for (let i = 0; i < matrice.length; i++)
-    {
-        matrice[i] = new Array(29);
+        matrice = new Array(58);
+        for (let i = 0; i < matrice.length; i++)
+        {
+            matrice[i] = new Array(29);
+        }
+
+        for(let x = 0; x < matrice.length; x++){
+        for(let y = 0; y < matrice[x].length; y++ ){
+
+            matrice[x][y] = nombreEntre()
+        }
+
+        }
+
+    
+    } 
+
+    /*
+    function affichermatrice(){
+        console.log('afficher');
+        for(let x = 0; x < matrice.length; x++){
+        for(let y = 0; y < matrice[x].length; y++ ){
+            contexte.fillStyle = matrice[x][y];
+            contexte.fillRect(x * dimensiontuile, y* dimensiontuile, dimensiontuile, dimensiontuile)
+            
+        }
+        }
+
+    }*/
+
+    function affichermatrice() {
+        for (let x = 0; x < matrice.length; x++) {
+            for (let y = 0; y < matrice[x].length; y++) {
+                contexte.fillStyle = matrice[x][y];
+                contexte.fillRect(x * dimensiontuile, y * dimensiontuile, dimensiontuile, dimensiontuile);
+            }
+        }
+    }
+    
+
+    function affichage() {
+        contexte.clearRect(0, 0, canevas.width, canevas.height);  // Clear the entire canvas
+        affichermatrice();  // Draw the tile background
+        contexte.fillRect(posx1, posy1, dimsprite1, dimsprite1);
+        contexte.fillRect(posx2, posy2, dimsprite2, dimsprite2);
     }
 
-    for(let x = 0; x < matrice.length; x++){
-    for(let y = 0; y < matrice[x].length; y++ ){
-
-        matrice[x][y] = nombreEntre()
-    }
-
-    }
-
-   
-} 
-function affichermatrice(){
-    console.log('afficher');
-    for(let x = 0; x < matrice.length; x++){
-    for(let y = 0; y < matrice[x].length; y++ ){
-        contexte.fillStyle = matrice[x][y];
-        contexte.fillRect(x * dimensiontuile, y* dimensiontuile, dimensiontuile, dimensiontuile)
-        
-    }
-    }
-
-}
 
 
-function nombreEntre(){   
-    compteurCouleur++;
-    if (compteurCouleur==2){
-        compteurCouleur=0;
-    }
+    function nombreEntre(){   
+        compteurCouleur++;
+        if (compteurCouleur==2){
+            compteurCouleur=0;
+        }
 
-    return couleur[compteurCouleur];
-    }
+        return couleur[compteurCouleur];
+        }
  
     
 
@@ -95,7 +115,7 @@ function nombreEntre(){
    
 
    
-
+    /*
     function boucleJeu(timeStamp){
         calculerPosition();
         
@@ -114,6 +134,19 @@ function nombreEntre(){
 
 
 
+    } */
+
+    function boucleJeu(timeStamp) {
+        calculerPosition();
+        affichage();  // Call the main affichage function first
+        window.requestAnimationFrame(boucleJeu);
+    }
+    
+    function affichage() {
+        contexte.clearRect(0, 0, canevas.width, canevas.height);  // Clear the entire canvas
+        affichermatrice();  // Draw the tile background
+        contexte.fillRect(posx1, posy1, dimsprite1, dimsprite1);
+        contexte.fillRect(posx2, posy2, dimsprite2, dimsprite2);
     }
 
     function toucheAppuyee(evenement){
