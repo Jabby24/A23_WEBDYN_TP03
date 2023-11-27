@@ -16,21 +16,21 @@
 #Score1{
     font-size: 100px;
     width:fit-content;
-    color: rgb(64, 7, 170) ;
+    color: rgb(175, 143, 255) ;
     padding: 10px;
-    position: relative;
+    position: fixed;
     left: 200px;
-    bottom:60px;
+    top:0px;
     font-family:Bungee;
     
 }
 #Score2{
     font-size: 100px;
     width:fit-content;
-    color: rgb(170, 7, 118) ;
+    color: rgb(255, 151, 222);
     padding: 10px;
-    position: relative;
+    position: fixed;
     left: 1500px;
-    bottom:328px;
+    top:0px;
     font-family:Bungee;
 }
