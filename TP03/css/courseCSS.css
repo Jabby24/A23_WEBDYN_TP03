@@ -12,3 +12,25 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+#Score1{
+    font-size: 100px;
+    width:fit-content;
+    color: rgb(64, 7, 170) ;
+    padding: 10px;
+    position: relative;
+    left: 200px;
+    bottom:60px;
+    font-family:Bungee;
+    
+}
+#Score2{
+    font-size: 100px;
+    width:fit-content;
+    color: rgb(170, 7, 118) ;
+    padding: 10px;
+    position: relative;
+    left: 1500px;
+    bottom:328px;
+    font-family:Bungee;
+}
