@@ -3,6 +3,9 @@ let contexte;
 let matrice;
 let compteurCouleur = 0;
 
+let tableauBerry = [];
+
+
 const dimsprite1 = 48;
 const dimsprite2 = 48;
 const deplacement = 10;
@@ -23,7 +26,7 @@ const deplacement2 = 10;
         }
 
 const dimensiontuile = 32;
-const couleur = ["darkgreen", "forestgreen"];
+const couleur = ["pink", "mistyrose"];
 
 
 
@@ -32,6 +35,8 @@ const couleur = ["darkgreen", "forestgreen"];
 
 
     window.onload = function(){
+        Berry = document.getElementById("BerryImg");
+
         window.addEventListener("keydown", toucheAppuyee)
         window.addEventListener("keyup", toucheRelachee)
 
@@ -42,6 +47,7 @@ const couleur = ["darkgreen", "forestgreen"];
 
         construireMatrice();
         affichermatrice();
+        creationBerry();
 
     //let ImageSprite1 = new Image(images/CuboneSprites/Cubone_Front)
         //contexte1.fillStyle = "blue";
@@ -154,6 +160,21 @@ const couleur = ["darkgreen", "forestgreen"];
         contexte1.fillRect(posx1, posy1, dimsprite1, dimsprite1);
         contexte2.fillStyle = "red";
         contexte2.fillRect(posx2, posy2, dimsprite2, dimsprite2);
+
+        for(let i =0; i < tableauBerry.length; i++){         
+            //contexte.fillStyle = "purple";
+            //contexte.fillRect(tableauBerry[i].x, tableauBerry[i].y, 25, 25);
+            const Berry = document.getElementById('BerryImg'); 
+            contexte.drawImage(Berry, tableauBerry[i].x, tableauBerry[i].y);         
+        }
+    }
+
+    function creationBerry(){     
+        for (let i =0; i < 15; i++){
+            posX = Math.floor(Math.random() * canevas.width) + 1;
+            posY = Math.floor(Math.random() * canevas.height) + 1;
+            tableauBerry.push({x: posX, y: posY});
+        }   
     }
 
     function toucheAppuyee(evenement){
