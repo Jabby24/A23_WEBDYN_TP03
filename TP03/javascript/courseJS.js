@@ -150,8 +150,9 @@ const couleur = ["darkgreen", "forestgreen"];
         affichermatrice();  // Draw the tile background
 
         contexte1.fillStyle = "blue";
-        contexte2.fillStyle = "red";
+        
         contexte1.fillRect(posx1, posy1, dimsprite1, dimsprite1);
+        contexte2.fillStyle = "red";
         contexte2.fillRect(posx2, posy2, dimsprite2, dimsprite2);
     }
 
