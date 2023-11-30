@@ -1,59 +1,69 @@
+// Déclaration des variables
 let canevas;
 let contexte;
 let matrice;
 let compteurCouleur = 0;
 
+// Constantes pour les dimensions des sprites et les distances de déplacement
 const dimsprite1 = 48;
 const dimsprite2 = 48;
 const deplacement = 10;
 const deplacement2 = 10;
+
+    // Positions des joueurs
     let posx1;
     let posy1;
     let posx2;
     let posy2;
+
+// Objet pour suivre les touches enfoncées
     let touche = {
          "ArrowUp": false,
          "ArrowDown": false,
          "ArrowLeft": false,
          "ArrowRight": false,
-         "W": false,
-         "A": false,
-         "S": false,
-         "D": false
+         "w": false,
+         "a": false,
+         "s": false,
+         "d": false
         }
 
+// Constantes pour les dimensions des tuiles et les couleurs
 const dimensiontuile = 32;
 const couleur = ["darkgreen", "forestgreen"];
 
-
-
-
-
-
-
+    // Chargement de la page
     window.onload = function(){
+
+        // Ajout des écouteurs d'événements pour les touches
         window.addEventListener("keydown", toucheAppuyee)
         window.addEventListener("keyup", toucheRelachee)
 
+        // Récupération du canevas et de son contexte
         canevas = document.getElementById('canevas');
         contexte = canevas.getContext('2d');
         contexte1 = canevas.getContext('2d');
         contexte2 = canevas.getContext('2d');
 
+        // Construction de la matrice et affichage
         construireMatrice();
         affichermatrice();
 
     //let ImageSprite1 = new Image(images/CuboneSprites/Cubone_Front)
         //contexte1.fillStyle = "blue";
+
+            // Positionnement des joueurs
             posx1 = canevas.width/2 - dimsprite1/2;
             posy1 = canevas.height/2 - dimsprite1/2;
 
             posx2 = canevas.width/2 - dimsprite2/2;
             posy2 = canevas.height/2 - dimsprite2/2;
 
+            // Démarrage de la boucle de jeu
             window.requestAnimationFrame(boucleJeu);  // le navigateur appellera boucleJeu() au bon moment
     }
     
+    // Fonction pour construire la matrice
     function construireMatrice(){
         console.log('construire');
 
@@ -68,25 +78,11 @@ const couleur = ["darkgreen", "forestgreen"];
 
             matrice[x][y] = nombreEntre()
         }
-
         }
 
-    
     } 
 
-    /*
-    function affichermatrice(){
-        console.log('afficher');
-        for(let x = 0; x < matrice.length; x++){
-        for(let y = 0; y < matrice[x].length; y++ ){
-            contexte.fillStyle = matrice[x][y];
-            contexte.fillRect(x * dimensiontuile, y* dimensiontuile, dimensiontuile, dimensiontuile)
-            
-        }
-        }
-
-    }*/
-
+    // Fonction pour afficher la matrice
     function affichermatrice() {
         for (let x = 0; x < matrice.length; x++) {
             for (let y = 0; y < matrice[x].length; y++) {
@@ -96,11 +92,7 @@ const couleur = ["darkgreen", "forestgreen"];
         }
     }
     
-
-   
-
-
-
+    // Fonction pour obtenir une couleur entre "darkgreen" et "forestgreen"
     function nombreEntre(){   
         compteurCouleur++;
         if (compteurCouleur==2){
@@ -108,66 +100,52 @@ const couleur = ["darkgreen", "forestgreen"];
         }
 
         return couleur[compteurCouleur];
-        }
- 
-    
-
-
-   
-
-   
-    /*
-    function boucleJeu(timeStamp){
-        calculerPosition();
-        
-       affichage();
-
-        window.requestAnimationFrame(boucleJeu);  // le navigateur appellera boucleJeu() au bon moment
-        
-        
     }
 
-    function affichage(){
-
-     contexte.clearRect(0, 0 ,1000, 500);
-     
-     contexte.fillRect(posx1, posy1, dimsprite1, dimsprite1) 
-
-
-
-    } */
-
+    // Fonction pour la boucle de jeu
     function boucleJeu(timeStamp) {
         calculerPosition1();
         calculerPosition2();
-        affichage();  // Call the main affichage function first
+        affichage();  // Appel de la fonction principale d'affichage
         window.requestAnimationFrame(boucleJeu);
     }
     
+    // Fonction pour l'affichage
     function affichage() {
-        contexte.clearRect(0, 0, canevas.width, canevas.height);  // Clear the entire canvas
-        
-        affichermatrice();  // Draw the tile background
+        contexte.clearRect(0, 0, canevas.width, canevas.height);  // Effacer tout le canevas
+    
+        affichermatrice(); // Dessiner l'arrière-plan des tuiles
+    
+        // Rendre le joueur 1 (bleu)
+        contexte.fillStyle = "blue";
+        contexte.fillRect(posx1, posy1, dimsprite1, dimsprite1);
 
-        contexte1.fillStyle = "blue";
-        
-        contexte1.fillRect(posx1, posy1, dimsprite1, dimsprite1);
-        contexte2.fillStyle = "red";
-        contexte2.fillRect(posx2, posy2, dimsprite2, dimsprite2);
+        // Rendre le joueur 2 (rouge)
+        contexte.fillStyle = "red";
+        contexte.fillRect(posx2, posy2, dimsprite2, dimsprite2);
     }
-
+    
+    // Fonction appelée lorsqu'une touche est enfoncée
     function toucheAppuyee(evenement){
-        if((evenement.key === "ArrowUp") || (evenement.key === "ArrowDown") || (evenement.key === "ArrowLeft") || (evenement.key === "ArrowRight") || (evenement.key === "W") || (evenement.key === "A") || (evenement.key === "S") || (evenement.key === "D")){
-touche[evenement.key] = true;
+        console.log("Key pressed:", evenement.key);
+        if((evenement.key === "ArrowUp") || (evenement.key === "ArrowDown") || (evenement.key === "ArrowLeft") || (evenement.key === "ArrowRight") || (evenement.key === "w") || (evenement.key === "a") || (evenement.key === "s") || (evenement.key === "d")){
+            touche[evenement.key] = true;
+
+            console.log("Key pressed:", evenement.key);
         }
     }
-
+    
+    // Fonction appelée lorsqu'une touche est relâchée
     function toucheRelachee(evenement){
-        if((evenement.key === "ArrowUp") || (evenement.key === "ArrowDown") || (evenement.key === "ArrowLeft") || (evenement.key === "ArrowRight")  || (evenement.key === "W") || (evenement.key === "A") || (evenement.key === "S") || (evenement.key === "D")){
-touche[evenement.key] = false;
-        }
-    }
+        console.log("Key released:", evenement.key);
+        if((evenement.key === "ArrowUp") || (evenement.key === "ArrowDown") || (evenement.key === "ArrowLeft") || (evenement.key === "ArrowRight")  || (evenement.key === "w") || (evenement.key === "a") || (evenement.key === "s") || (evenement.key === "d")){
+            touche[evenement.key] = false;
 
+            console.log("Key released:", evenement.key);
+        }
+    }    
+
+    // Fonction pour calculer la position du joueur 1
     function calculerPosition1(){
    
        if(touche["ArrowUp"]){
@@ -183,6 +161,7 @@ touche[evenement.key] = false;
         posx1 -= deplacement;
        }
 
+       // Limites pour éviter que le joueur 1 sorte du canevas
        if(posx1 < 0)
        {
         posx1 = 0
@@ -205,43 +184,42 @@ touche[evenement.key] = false;
        }
 
     }
-    function calculerPosition2(){
-   
-        if(touche["W"]){
-         posy2 -= deplacement2;
+
+    // Fonction pour calculer la position du joueur 2
+    function calculerPosition2() {
+
+        
+        if (touche["w"]) {
+            posy2 -= deplacement2;
         }
-        if(touche["A"]){
-         posy2 += deplacement2;
+        if (touche["a"]) {
+            posx2 -= deplacement2;  
         }
-        if(touche["S"]){
-         posx2 += deplacement2;
+        if (touche["s"]) {
+            posy2 += deplacement2;
         }
-        if(touche["D"]){
-         posx2 -= deplacement2;
+        if (touche["d"]) {
+            posx2 += deplacement2;  
         }
- 
-        if(posx2 < 0)
-        {
-         posx2 = 0
- 
+    
+        if (posx2 < 0) {
+            posx2 = 0;
         }
- 
-        if(posx2 > canevas.width - dimsprite2)
-        {
-         posx2 = canevas.width - dimsprite2
+    
+        if (posx2 > canevas.width - dimsprite2) {
+            posx2 = canevas.width - dimsprite2;
         }
- 
-        if(posy2 > (canevas.height - dimsprite2) )
-        {
-         posy2 = canevas.height - dimsprite2
+    
+        if (posy2 > canevas.height - dimsprite2) {
+            posy2 = canevas.height - dimsprite2;
         }
- 
-        if(posy2 < 0 )
-        {
-         posy2 = 0
+    
+        if (posy2 < 0) {
+            posy2 = 0;
         }
- 
-     }
+
+    }
+    
     
 
 
