@@ -55,10 +55,10 @@ const couleur = ["pink", "mistyrose"];
         //contexte1.fillStyle = "blue";
 
             // Positionnement des joueurs
-            posx1 = canevas.width/2 - dimsprite1/2;
+            posx1 = canevas.width/2 - dimsprite1/2 - 50;
             posy1 = canevas.height/2 - dimsprite1/2;
 
-            posx2 = canevas.width/2 - dimsprite2/2;
+            posx2 = canevas.width/2 - dimsprite2/2 + 50;
             posy2 = canevas.height/2 - dimsprite2/2;
 
             // Démarrage de la boucle de jeu
@@ -108,8 +108,10 @@ const couleur = ["pink", "mistyrose"];
     function boucleJeu(timeStamp) {
         calculerPosition1();
         calculerPosition2();
+        rectanglesCollisionJoueur1();
         affichage();  // Appel de la fonction principale d'affichage
         window.requestAnimationFrame(boucleJeu);
+        
     }
     
     // Fonction pour l'affichage
@@ -126,8 +128,7 @@ const couleur = ["pink", "mistyrose"];
         contexte.fillStyle = "red";
         contexte.fillRect(posx2, posy2, dimsprite2, dimsprite2);
         for(let i =0; i < tableauBerry.length; i++){         
-            //contexte.fillStyle = "purple";
-            //contexte.fillRect(tableauBerry[i].x, tableauBerry[i].y, 25, 25);
+       
             const Berry = document.getElementById('BerryImg'); 
             contexte.drawImage(Berry, tableauBerry[i].x, tableauBerry[i].y);         
         }
@@ -235,7 +236,28 @@ const couleur = ["pink", "mistyrose"];
         }
 
     }
+
+    function rectanglesCollisionJoueur1() {
+        let C = {x: posx1, y:posy1}
+        let D = {x: posx1 + dimsprite1, y:posy1}
+
+        for(let i =0; i < Berry.length; i++ ){
+        let A = {x: tableauBerry[i].x, y:tableauBerry[i].y };
+        let B = {x: tableauBerry[i].x + tableauBerry[i].width, y:tableauBerry[i].y + tableauBerry[i].height};
+       if (rectanglesCollision(A, B, C, D)){
+        console.log("affiche colision")
+       }
+       }
+    }
     
-    
+       function rectanglesCollision(A, B, C, D) {
+        if (A.x >= D.x || C.x >= B.x){
+        return false;
+        } 
+        if (A.y >= D.y || C.y >= B.y) {
+        return false;
+        }
+        return true;
+        }
 
 
