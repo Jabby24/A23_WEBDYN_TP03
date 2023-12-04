@@ -11,7 +11,37 @@ const dimsprite2 = 48;
 const deplacement = 10;
 const deplacement2 = 10;
 
-    // Positions des joueurs
+// Images de direction joueur1
+const joueur1ImagesUrl = {
+    up: "./images/CuboneSprites/Cubone_Back.png",
+    down: "./images/CuboneSprites/Cubone_Front.png",
+    left: "./images/CuboneSprites/Cubone_Left.png",
+    right: "./images/CuboneSprites/Cubone_Right.png",
+};
+
+// Images de direction joueur2
+const joueur2ImagesUrl = {
+    up: "./images/SlowpokeSprites/Slowpoke_Back.png",
+    down: "./images/SlowpokeSprites/Slowpoke_Front.png",
+    left: "./images/SlowpokeSprites/Slowpoke_Left.png",
+    right: "./images/SlowpokeSprites/Slowpoke_Right.png",
+};
+
+//cherche les urls des images du joueur1 dependemment de sa direction
+const joueur1Images = {};
+for (const direction in joueur1ImagesUrl) {
+    joueur1Images[direction] = new Image();
+    joueur1Images[direction].src = joueur1ImagesUrl[direction];
+}
+
+//cherche les urls des images du joueur2 dependemment de sa direction
+const joueur2Images = {};
+for (const direction in joueur2ImagesUrl) {
+    joueur2Images[direction] = new Image();
+    joueur2Images[direction].src = joueur2ImagesUrl[direction];
+}
+
+// Positions des joueurs
     let posx1;
     let posy1;
     let posx2;
@@ -26,7 +56,9 @@ const deplacement2 = 10;
          "w": false,
          "a": false,
          "s": false,
-         "d": false
+         "d": false,
+         "Enter": false,
+         " ": false
         }
 
 // Constantes pour les dimensions des tuiles et les couleurs
@@ -37,6 +69,7 @@ const couleur = ["pink", "mistyrose"];
     window.onload = function(){
         // Ajout des écouteurs d'événements pour les touches
         Berry = document.getElementById("BerryImg");
+
         window.addEventListener("keydown", toucheAppuyee)
         window.addEventListener("keyup", toucheRelachee)
 
@@ -50,6 +83,7 @@ const couleur = ["pink", "mistyrose"];
         construireMatrice();
         affichermatrice();
         creationBerry();
+        
 
     //let ImageSprite1 = new Image(images/CuboneSprites/Cubone_Front)
         //contexte1.fillStyle = "blue";
@@ -119,14 +153,42 @@ const couleur = ["pink", "mistyrose"];
         contexte.clearRect(0, 0, canevas.width, canevas.height);  // Effacer tout le canevas
     
         affichermatrice(); // Dessiner l'arrière-plan des tuiles
+        
+        if (touche["ArrowUp"]) {
+            contexte.drawImage(joueur1Images.up, posx1, posy1, dimsprite1, dimsprite1);
+        } else if (touche["ArrowDown"]) {
+            contexte.drawImage(joueur1Images.down, posx1, posy1, dimsprite1, dimsprite1);
+        } else if (touche["ArrowLeft"]) {
+            contexte.drawImage(joueur1Images.left, posx1, posy1, dimsprite1, dimsprite1);
+        } else if (touche["ArrowRight"]) {
+            contexte.drawImage(joueur1Images.right, posx1, posy1, dimsprite1, dimsprite1);
+        } else {
+            // Default image when no arrow key is pressed
+            contexte.drawImage(joueur1Images.down, posx1, posy1, dimsprite1, dimsprite1);
+        }
     
+        // Draw player 2 based on pressed keys
+        if (touche["w"]) {
+            contexte.drawImage(joueur2Images.up, posx2, posy2, dimsprite2, dimsprite2);
+        } else if (touche["s"]) {
+            contexte.drawImage(joueur2Images.down, posx2, posy2, dimsprite2, dimsprite2);
+        } else if (touche["a"]) {
+            contexte.drawImage(joueur2Images.left, posx2, posy2, dimsprite2, dimsprite2);
+        } else if (touche["d"]) {
+            contexte.drawImage(joueur2Images.right, posx2, posy2, dimsprite2, dimsprite2);
+        } else {
+            // Default image when no arrow key is pressed
+            contexte.drawImage(joueur2Images.down, posx2, posy2, dimsprite2, dimsprite2);
+        }
+
         // Rendre le joueur 1 (bleu)
-        contexte.fillStyle = "blue";
+        /*contexte.fillStyle = "blue";
         contexte.fillRect(posx1, posy1, dimsprite1, dimsprite1);
 
         // Rendre le joueur 2 (rouge)
         contexte.fillStyle = "red";
-        contexte.fillRect(posx2, posy2, dimsprite2, dimsprite2);
+        contexte.fillRect(posx2, posy2, dimsprite2, dimsprite2);*/
+
         for(let i =0; i < tableauBerry.length; i++){         
        
             const Berry = document.getElementById('BerryImg'); 
@@ -150,6 +212,21 @@ const couleur = ["pink", "mistyrose"];
 
             console.log("Key pressed:", evenement.key);
         }
+        if ((evenement.key === "Enter")){
+            touche["Enter"] = true;
+            console.log(touche["Enter"]);
+            console.log("Enter!!");
+        }
+        if ((evenement.key === " ")){
+            touche[" "] = true;
+            console.log(touche[" "]);
+            console.log("Spacebar!!");
+        }
+        if (touche["Enter"] && touche[" "]){
+
+            commencerJeu();
+
+        }
     }
     
     // Fonction appelée lorsqu'une touche est relâchée
@@ -162,102 +239,110 @@ const couleur = ["pink", "mistyrose"];
         }
     }    
 
+    function commencerJeu(){     
+            console.log('Start!!');
+            const debutText = document.getElementById("messageDebutPartie");
+            debutText.style.display = "none";
+    }
+
+
+
     // Fonction pour calculer la position du joueur 1
     function calculerPosition1(){
-   
-       if(touche["ArrowUp"]){
-        posy1 -= deplacement;
-       }
-       if(touche["ArrowDown"]){
-        posy1 += deplacement;
-       }
-       if(touche["ArrowRight"]){
-        posx1 += deplacement;
-       }
-       if(touche["ArrowLeft"]){
-        posx1 -= deplacement;
-       }
+        if (touche["Enter"] && touche[" "]){
+            if(touche["ArrowUp"]){
+                posy1 -= deplacement;
+            }
+            if(touche["ArrowDown"]){
+                posy1 += deplacement;
+            }
+            if(touche["ArrowRight"]){
+                posx1 += deplacement;
+            }
+            if(touche["ArrowLeft"]){
+                posx1 -= deplacement;
+            }
 
-       // Limites pour éviter que le joueur 1 sorte du canevas
-       if(posx1 < 0)
-       {
-        posx1 = 0
-
-       }
-
-       if(posx1 > canevas.width - dimsprite1)
-       {
-        posx1 = canevas.width - dimsprite1
-       }
-
-       if(posy1 > (canevas.height - dimsprite1) )
-       {
-        posy1 = canevas.height - dimsprite1
-       }
-
-       if(posy1 < 0 )
-       {
-        posy1 = 0
-       }
-
+            if(posx1 < 0)
+            {
+             posx1 = 0
+     
+            }
+            
+            // Limites pour éviter que le joueur 1 sorte du canevas
+            if(posx1 > canevas.width - dimsprite1)
+            {
+             posx1 = canevas.width - dimsprite1
+            }
+     
+            if(posy1 > (canevas.height - dimsprite1) )
+            {
+             posy1 = canevas.height - dimsprite1
+            }
+     
+            if(posy1 < 0 )
+            {
+             posy1 = 0
+            }
+        }
     }
 
     // Fonction pour calculer la position du joueur 2
     function calculerPosition2() {
-
+        if (touche["Enter"] && touche[" "]){
+            if (touche["w"]) {
+                posy2 -= deplacement2;
+            }
+            if (touche["a"]) {
+                posx2 -= deplacement2;  
+            }
+            if (touche["s"]) {
+                posy2 += deplacement2;
+            }
+            if (touche["d"]) {
+                posx2 += deplacement2;  
+            }
         
-        if (touche["w"]) {
-            posy2 -= deplacement2;
-        }
-        if (touche["a"]) {
-            posx2 -= deplacement2;  
-        }
-        if (touche["s"]) {
-            posy2 += deplacement2;
-        }
-        if (touche["d"]) {
-            posx2 += deplacement2;  
-        }
+            if (posx2 < 0) {
+                posx2 = 0;
+            }
+        
+            if (posx2 > canevas.width - dimsprite2) {
+                posx2 = canevas.width - dimsprite2;
+            }
+        
+            if (posy2 > canevas.height - dimsprite2) {
+                posy2 = canevas.height - dimsprite2;
+            }
+        
+            if (posy2 < 0) {
+                posy2 = 0;
+            }
     
-        if (posx2 < 0) {
-            posx2 = 0;
-        }
-    
-        if (posx2 > canevas.width - dimsprite2) {
-            posx2 = canevas.width - dimsprite2;
-        }
-    
-        if (posy2 > canevas.height - dimsprite2) {
-            posy2 = canevas.height - dimsprite2;
-        }
-    
-        if (posy2 < 0) {
-            posy2 = 0;
-        }
-
+        }       
     }
 
     function rectanglesCollisionJoueur1() {
         let C = {x: posx1, y:posy1}
-        let D = {x: posx1 + dimsprite1, y:posy1}
+        let D = {x: posx1 + dimsprite1, y:posy1 + dimsprite1}
 
-        for(let i =0; i < Berry.length; i++ ){
+        for(let i =0; i < tableauBerry.length; i++ ){
         let A = {x: tableauBerry[i].x, y:tableauBerry[i].y };
         let B = {x: tableauBerry[i].x + tableauBerry[i].width, y:tableauBerry[i].y + tableauBerry[i].height};
-       if (rectanglesCollision(A, B, C, D)){
-        console.log("affiche colision")
-       }
+        if (rectanglesCollision(A, B, C, D)){
+            console.log("affiche colision")
+        }
        }
     }
     
-       function rectanglesCollision(A, B, C, D) {
+    function rectanglesCollision(A, B, C, D) {
         if (A.x >= D.x || C.x >= B.x){
-        return false;
+            return false;
         } 
         if (A.y >= D.y || C.y >= B.y) {
-        return false;
+            return false;
         }
         return true;
-        }
+    }
 
 
