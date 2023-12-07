@@ -2,6 +2,12 @@
     background-color: black;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    }
+
 #messageDebutPartie {
     color: white;
     text-align: center;
@@ -16,7 +22,7 @@
 #Score1{
     font-size: 100px;
     width:fit-content;
-    color: rgb(175, 143, 255) ;
+    color: rgba(139, 90, 56, 0.5) ;
     padding: 10px;
     position: fixed;
     left: 200px;
@@ -27,7 +33,7 @@
 #Score2{
     font-size: 100px;
     width:fit-content;
-    color: rgb(255, 151, 222);
+    color: rgba(230, 74, 87, 0.5);
     padding: 10px;
     position: fixed;
     left: 1500px;
